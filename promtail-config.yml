@@ -1,0 +1,34 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  # filename: /tmp/positions.yaml
+  filename: /promtail_data/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+- job_name: system
+  pipeline_stages:
+    - docker:
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      host: yourhost
+      __path__: /var/log/*log
+
+# Template for additional jobs
+# - job_name: someone_service
+#    pipeline_stages:
+#    - docker:
+#    static_configs:
+#    - targets:
+#       - localhost
+#      labels:
+#       job: someone_service
+#       host: yourhost
+#       __path__: /srv/log/someone_service/*.log

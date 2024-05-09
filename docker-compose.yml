@@ -1,0 +1,120 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    # https://github.com/prometheus/prometheus/issues/5976
+    restart: unless-stopped
+    user: root
+    ports:
+      - 0.0.0.0:9090:9090
+    volumes:
+      - prometheus_data:/prometheus/data
+      - ${PWD}/prometheus-config.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=1y"  # Set retention time to 1 year
+      - "--storage.tsdb.retention.size=10GB" # Set retention size to 10 GB
+    networks:
+      - metrics
+
+  grafana:
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy
+          orgId: 1
+          url: http://loki:3100
+          basicAuth: false
+          isDefault: false
+          version: 1
+          editable: false
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: http://prometheus:9090
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    image: grafana/grafana-oss:10.4.2
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana_dashboards:/etc/grafana/provisioning/dashboards 
+    networks:
+      - metrics
+
+
+  pushgateway:
+    image: prom/pushgateway:v1.8.0
+    ports:
+      - 0.0.0.0:9091:9091
+    restart: unless-stopped
+    networks:
+      - metrics
+
+  loki:
+    image: grafana/loki:2.9.8
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:3100:3100
+    volumes:
+      - loki_data:/loki
+      - ${PWD}/loki-config.yml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - metrics
+
+  promtail:
+    image: grafana/promtail:2.9.1
+    restart: unless-stopped
+    volumes:
+      - /var/log:/var/log
+      - ${PWD}/promtail-config.yml:/etc/promtail/config.yml
+      - promtail_data:/promtail_data
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - metrics
+
+  sample-metrics: 
+    image: python:3.12
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8000:8000
+    volumes:
+      - ${PWD}/sample-metrics:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - metrics
+
+networks:
+  metrics:
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  promtail_data:
+    # driver: local
+    #   driver_opts:
+    #     type: tmpfs
+    #     device: tmpfs
+    #     o: size=10m
+  loki_data:
+  

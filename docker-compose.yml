@@ -29,8 +29,9 @@ services:
       - 0.0.0.0:3000:3000
     volumes:
       - grafana_data:/var/lib/grafana
-      - ${PWD}/grafana_dashboards:/etc/grafana/provisioning/dashboards 
-      - ${PWD}/grafana-datasources.yml:/etc/grafana/provisioning/datasources/.yaml
+      - ${PWD}/grafana_dashboards:/var/lib/grafana/dashboards
+      - ${PWD}/grafana-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ${PWD}/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
     networks:
       - metrics
 

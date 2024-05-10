@@ -22,40 +22,15 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     entrypoint:
-      - sh
-      - -euc
-      - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-        - name: Loki
-          type: loki
-          access: proxy
-          orgId: 1
-          url: http://loki:3100
-          basicAuth: false
-          isDefault: false
-          version: 1
-          editable: false
-        - name: Prometheus
-          type: prometheus
-          access: proxy
-          orgId: 1
-          url: http://prometheus:9090
-          basicAuth: false
-          isDefault: true
-          version: 1
-          editable: false
-        EOF
-        /run.sh
+      - /run.sh
     image: grafana/grafana-oss:10.4.2
     restart: unless-stopped
     ports:
       - 0.0.0.0:3000:3000
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana_dashboards:/etc/grafana/provisioning/dashboards 
+      - ${PWD}/grafana_dashboards:/etc/grafana/provisioning/dashboards 
+      - ${PWD}/grafana-datasources.yml:/etc/grafana/provisioning/datasources/.yaml
     networks:
       - metrics
 

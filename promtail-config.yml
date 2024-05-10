@@ -1,25 +1,50 @@
+# https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
+
+# Configures the server for Promtail.
 server:
+  # HTTP server listen port (0 means random port)
   http_listen_port: 9080
+  # gRPC server listen port (0 means random port)
   grpc_listen_port: 0
 
+# Describes how Promtail connects to multiple instances
+# of Grafana Loki, sending logs to each.
+# WARNING: If one of the remote Loki servers fails to respond or responds
+# with any error which is retryable, this will impact sending logs to any
+# other configured remote Loki servers.  Sending is done on a single thread!
+# It is generally recommended to run multiple Promtail clients in parallel
+# if you want to send to multiple remote Loki instances.
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+# Describes how to save read file offsets to disk
 positions:
   # filename: /tmp/positions.yaml
   filename: /promtail_data/positions.yaml
 
-clients:
-  - url: http://loki:3100/loki/api/v1/push
-
 scrape_configs:
+# Name to identify this scrape config in the Promtail UI.
 - job_name: system
+  # Describes how to transform logs from targets.
   pipeline_stages:
     - docker:
+  # Static targets to scrape.
   static_configs:
+  # Configures the discovery to look on the current machine.
+  # This is required by the prometheus service discovery code but doesn't
+  # really apply to Promtail which can ONLY look at files on the local machine
+  # As such it should only have the value of localhost, OR it can be excluded
+  # entirely and a default value of localhost will be applied by Promtail.
   - targets:
       - localhost
+    # Defines a file to scrape and an optional set of additional labels to apply to
+    # all streams defined by the files from __path__.
     labels:
+      # The path to load logs from. Can use glob patterns (e.g., /var/log/*.log).
+      __path__: /var/log/*log
+      # Additional labels to assign to the logs
       job: varlogs
       host: yourhost
-      __path__: /var/log/*log
 
 # Template for additional jobs
 # - job_name: someone_service

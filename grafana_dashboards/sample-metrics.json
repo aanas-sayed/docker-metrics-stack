@@ -27,7 +27,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 13,
+        "w": 7,
         "x": 0,
         "y": 0
       },
@@ -101,10 +101,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 5,
-        "x": 0,
-        "y": 8
+        "h": 8,
+        "w": 6,
+        "x": 7,
+        "y": 0
       },
       "id": 2,
       "options": {
@@ -172,10 +172,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 5,
-        "y": 8
+        "h": 8,
+        "w": 11,
+        "x": 13,
+        "y": 0
       },
       "id": 1,
       "options": {
@@ -215,6 +215,44 @@
       ],
       "title": "Total request processing seconds",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 22,
+        "w": 11,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "builder",
+          "expr": "{host=\"yourhost\",job=\"varlogs\"}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs - varlogs - host",
+      "type": "logs"
     }
   ],
   "schemaVersion": 39,
@@ -230,6 +268,6 @@
   "timezone": "browser",
   "title": "Sample Metrics",
   "uid": "adl7xn4i1gjk0b",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

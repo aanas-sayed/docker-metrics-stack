@@ -19,7 +19,7 @@ clients:
 
 # Describes how to save read file offsets to disk
 positions:
-  # filename: /tmp/positions.yaml
+  # This location needs to be writeable by Promtail.
   filename: /promtail_data/positions.yaml
 
 scrape_configs:
@@ -45,15 +45,3 @@ scrape_configs:
       # Additional labels to assign to the logs
       job: varlogs
       host: yourhost
-
-# Template for additional jobs
-# - job_name: someone_service
-#    pipeline_stages:
-#    - docker:
-#    static_configs:
-#    - targets:
-#       - localhost
-#      labels:
-#       job: someone_service
-#       host: yourhost
-#       __path__: /srv/log/someone_service/*.log

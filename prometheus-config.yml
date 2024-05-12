@@ -20,14 +20,31 @@ scrape_configs:
     - targets: ['localhost:9090']
 
   - job_name: pushgateway
-    honor_labels: true
-    # metrics_path: '/pushgateway'
-    # scrape_interval: 1s
     static_configs:
     - targets: ['pushgateway:9091']
 
-  - job_name: 'sample-metrics'
-    # metrics_path: '/sample-metrics'
-    # scrape_interval: 1s
+  # These are example REST API apps that can be monitored if set up.
+  # Make sure the services are running.
+  # - job_name: 'rest-api-server-1'
+  #   static_configs:
+  #   - targets: ['rest-api-server-1:8000']
+
+  # - job_name: 'rest-api-server-2'
+  #   static_configs:
+  #   - targets: ['rest-api-server-2:8000']
+
+  # - job_name: 'rest-api-server-3'
+  #   static_configs:
+  #   - targets: ['rest-api-server-3:8000']
+
+  # - job_name: 'rest-api-server-4'
+  #   static_configs:
+  #   - targets: ['rest-api-server-4:8000']
+
+  # - job_name: 'rest-api-server-5'
+  #   static_configs:
+  #   - targets: ['rest-api-server-5:8000']
+
+  - job_name: 'rest-api-servers'
     static_configs:
-    - targets: ['sample-metrics:8000']
+    - targets: ['rest-api-server-1:8000', 'rest-api-server-2:8000', 'rest-api-server-3:8000', 'rest-api-server-4:8000', 'rest-api-server-5:8000']

@@ -1,8 +1,8 @@
 services:
   prometheus:
     image: prom/prometheus:v2.52.0
-    # https://github.com/prometheus/prometheus/issues/5976
     restart: unless-stopped
+    # https://github.com/prometheus/prometheus/issues/5976
     user: root
     ports:
       - 0.0.0.0:9090:9090
@@ -38,7 +38,6 @@ services:
     networks:
       - metrics
 
-
   pushgateway:
     image: prom/pushgateway:v1.8.0
     ports:
@@ -70,30 +69,13 @@ services:
     networks:
       - metrics
 
-  sample-metrics: 
-    image: python:3.12
-    restart: unless-stopped
-    ports:
-      - 0.0.0.0:8000:8000
-    volumes:
-      - ${PWD}/sample-metrics:/app
-    working_dir: /app
-    command: >
-      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
-    networks:
-      - metrics
-
 networks:
   metrics:
+    driver: bridge
 
 volumes:
   prometheus_data:
   grafana_data:
   promtail_data:
-    # driver: local
-    #   driver_opts:
-    #     type: tmpfs
-    #     device: tmpfs
-    #     o: size=10m
   loki_data:
   

@@ -1,0 +1,80 @@
+services:
+  rest-api-server-1:
+    image: python:3.12
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8001:8000
+    volumes:
+      - ${PWD}/example_apps/rest-api:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-2:
+    image: python:3.12
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8002:8000
+    volumes:
+      - ${PWD}/example_apps/rest-api:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-3:
+    image: python:3.12
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8003:8000
+    volumes:
+      - ${PWD}/example_apps/rest-api:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-4:
+    image: python:3.12
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8004:8000
+    volumes:
+      - ${PWD}/example_apps/rest-api:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-5:
+    image: python:3.12
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8005:8000
+    volumes:
+      - ${PWD}/example_apps/rest-api:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+  dummy-client:
+    image: python:3.12
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/example_apps/dummy-client:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+networks:
+  docker-metrics-stack_metrics:
+    external: true

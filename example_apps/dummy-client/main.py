@@ -1,41 +1,24 @@
-import requests
-import time
-import threading
+import aiohttp
+import asyncio
 
-# Define number of servers
-NO_OF_SERVERS = 5
-
-# Define the base URLs of your application servers
-base_urls = []
-for i in range(NO_OF_SERVERS):
-    base_url = f"http://rest-api-server-{i}:8000"
-    base_urls.append(base_url)
+BASE_URL = "http://nginx:8080"
 
 # Define the endpoints to request
-ENDPOINTS = ["/", "/slow_endpoint", "/fast_endpoint"]
+ENDPOINTS = ["/slow_endpoint", "/fast_endpoint"]
 
-
-# Function to continuously request endpoints
-def request_endpoints(base_url):
+async def request_endpoint(session, endpoint, frequency):
     while True:
-        try:
-            for endpoint in ENDPOINTS:
-                response = requests.get(base_url + endpoint)
-                print(
-                    f"Requested {endpoint} from {base_url}, Response: {response.text}"
-                )
-            time.sleep(1)  # Adjust the interval between requests as needed
-        except Exception as e:
-            print(f"Error occurred: {e}")
+        async with session.get(BASE_URL + endpoint) as response:
+            response_text = await response.text()
+            print(f"Requested {endpoint} from {BASE_URL}, Response: {response_text}")
+        await asyncio.sleep(frequency)
 
+async def main():
+    async with aiohttp.ClientSession() as session:
+        slow_tasks = [request_endpoint(session, ENDPOINTS[0], 0.1) for _ in range(100)] 
+        fast_tasks = [request_endpoint(session, ENDPOINTS[1], 0.05) for _ in range(1000)]
+        await asyncio.gather(*slow_tasks, *fast_tasks)
 
-# Start requesting endpoints for each server in separate threads
-request_threads = []
-for base_url in base_urls:
-    request_thread = threading.Thread(target=request_endpoints, args=(base_url,))
-    request_thread.start()
-    request_threads.append(request_thread)
-
-# Keep the main thread running
-while True:
-    time.sleep(1)
+# Run the main coroutine
+if __name__ == "__main__":
+    asyncio.run(main())

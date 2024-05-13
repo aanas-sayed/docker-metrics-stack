@@ -75,6 +75,16 @@ services:
     networks:
       - docker-metrics-stack_metrics
 
+  nginx:
+    image: nginx:1.25
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/example_apps/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 0.0.0.0:8080:8080
+    networks:
+      - docker-metrics-stack_metrics
+
 networks:
   docker-metrics-stack_metrics:
     external: true

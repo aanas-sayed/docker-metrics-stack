@@ -124,3 +124,7 @@ scrape_configs:
             endpoint:
             response_code:
             response_description:
+
+        - drop:
+            source: 'level'
+            expression: ^$

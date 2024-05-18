@@ -585,7 +585,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{job=\"docker\", container_name=\"docker-metrics-stack-promtail-1\"} != `level=info`",
+          "expr": "{job=\"docker\", container_name=\"docker-metrics-stack-promtail-1\", level!=\"info\"}",
           "maxLines": 1000,
           "queryType": "range",
           "refId": "A"
@@ -624,7 +624,8 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{job=\"docker\", container_tag=\"example-apps/rest-api-servers\"} != `INFO`",
+          "expr": "{job=\"docker\", container_tag=\"example-apps/rest-api-servers\", level!=\"INFO\"}",
+          "legendFormat": "{{level}}",
           "maxLines": 1000,
           "queryType": "range",
           "refId": "A"
@@ -634,15 +635,15 @@
       "type": "logs"
     }
   ],
-  "refresh": "5s",
+  "refresh": "",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
-    "to": "now"
+    "from": "2024-05-16T19:09:08.789Z",
+    "to": "2024-05-20T19:09:08.789Z"
   },
   "timepicker": {},
   "timezone": "browser",

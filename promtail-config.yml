@@ -25,9 +25,6 @@ positions:
 scrape_configs:
 # Name to identify this scrape config in the Promtail UI.
 - job_name: system
-  # Describes how to transform logs from targets.
-  pipeline_stages:
-    - docker:
   # Static targets to scrape.
   static_configs:
   # Configures the discovery to look on the current machine.
@@ -45,3 +42,31 @@ scrape_configs:
       # Additional labels to assign to the logs
       job: varlogs
       host: yourhost
+
+- job_name: docker
+  journal:
+    json: false
+    max_age: 12h
+    path: /var/log/journal
+    matches: _SYSTEMD_UNIT=docker.service
+    labels:
+      job: docker
+      host: yourhost
+  relabel_configs:
+    # - source_labels: ['__journal__systemd_unit']
+    #   target_label: systemd_unit
+    # - source_labels: ['__journal__hostname']
+    #   target_label: hostname
+    - source_labels: ['__journal_syslog_identifier']
+      target_label: syslog_identifier
+    - source_labels: ['__journal__transport']
+      target_label: transport
+    - source_labels: ['__journal_container_name']
+      target_label: container_name
+    - source_labels: ['__journal_container_tag']
+      target_label: container_tag
+    - source_labels: ['__journal_image_name']
+      target_label: image_name
+    - source_labels: ['__journal_cluster']
+      target_label: cluster
+

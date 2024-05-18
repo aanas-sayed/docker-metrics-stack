@@ -10,7 +10,7 @@ async def request_endpoint(session, endpoint, frequency):
     while True:
         async with session.get(BASE_URL + endpoint) as response:
             response_text = await response.text()
-            print(f"Requested {endpoint} from {BASE_URL}, Response: {response_text}")
+            # print(f"Requested {endpoint} from {BASE_URL}, Response: {response_text}")
         await asyncio.sleep(frequency)
 
 async def main():

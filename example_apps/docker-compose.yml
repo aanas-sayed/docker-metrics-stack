@@ -1,3 +1,9 @@
+x-logging:
+  &default-logging
+  driver: "journald"
+  options: 
+    tag: "example-apps/rest-api-servers"
+
 services:
   rest-api-server-1:
     image: python:3.12
@@ -9,6 +15,7 @@ services:
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    logging: *default-logging
     networks:
       - docker-metrics-stack_metrics
 
@@ -22,6 +29,7 @@ services:
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    logging: *default-logging
     networks:
       - docker-metrics-stack_metrics
 
@@ -35,6 +43,7 @@ services:
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    logging: *default-logging
     networks:
       - docker-metrics-stack_metrics
 
@@ -48,6 +57,7 @@ services:
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    logging: *default-logging
     networks:
       - docker-metrics-stack_metrics
 
@@ -61,6 +71,7 @@ services:
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    logging: *default-logging
     networks:
       - docker-metrics-stack_metrics
 

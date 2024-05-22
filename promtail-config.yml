@@ -81,7 +81,7 @@ scrape_configs:
     # This stage is only going to run if the scraped target has a container
     # name with value "docker-metrics-stack-promtail-1".
     - match:
-        selector: '{container_name="docker-metrics-stack-promtail-1"}'
+        selector: '{container_tag="docker-metrics-stack"}'
         stages:
         # The regex stage parses out a level, timestamp, caller, caller line and 
         # component. At the end of the stage, the values for level, timestamp, 
@@ -89,18 +89,15 @@ scrape_configs:
         # pipeline. Future stages can use these values and decide what to do with 
         # them.
         - regex:
-            expression: '.*level=(?P<level>[a-zA-Z]+).*ts=(?P<timestamp>[T\d-:.Z]*).*caller=(?P<caller>[a-zA-Z.]+):(?P<caller_line>[0-9]+).*component=(?P<component>[a-zA-Z]+)'
+            expression: '.*level=(?P<level>[a-zA-Z]+).*ts=(?P<timestamp>[T\d-:.Z]*).*'
         - regex:
-            expression: '.*ts=(?P<timestamp>[T\d-:.Z]*).*caller=(?P<caller>[a-zA-Z.]+):(?P<caller_line>[0-9]+).*level=(?P<level>[a-zA-Z]+).*'
+            expression: '.*ts=(?P<timestamp>[T\d-:.Z]*).*level=(?P<level>[a-zA-Z]+).*'
 
         # The labels stage takes the level and component entries from the previous
         # regex stage and promotes them to a label. For example, level=error may
         # be a label added by this stage.
         - labels:
             level:
-            caller:
-            caller_line:
-            component:
 
         # Finally, the timestamp stage takes the timestamp extracted from the
         # regex stage and promotes it to be the new timestamp of the log entry,
@@ -113,18 +110,15 @@ scrape_configs:
         selector: '{container_tag="example-apps/rest-api-servers"}'
         stages:
         - regex:
-            expression: '^(?P<level>[A-Z]+):\s+(?P<client_address>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+)\s+-\s+"(?P<http_method>[A-Z]+)\s+(?P<endpoint>.*?)\s+HTTP\/\d\.\d"\s+(?P<response_code>\d+)\s+(?P<response_description>.+)$'
-        - regex:
             expression: '^(?P<level>[A-Z]+):.*'
+            
+        - template:
+            source: level
+            template: '{{ ToLower .Value }}'
+
+        - template:
+            source: level
+            template: '{{ Replace .Value "warning" "warn" 1 }}'
 
         - labels:
             level:
-            client_address:
-            http_method:
-            endpoint:
-            response_code:
-            response_description:
-
-        - drop:
-            source: 'level'
-            expression: ^$

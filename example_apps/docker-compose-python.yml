@@ -11,7 +11,7 @@ services:
     ports:
       - 0.0.0.0:8001:8000
     volumes:
-      - ${PWD}/example_apps/rest-api/python:/app
+      - ${PWD}/example_apps/rest_api/python:/app
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
@@ -25,7 +25,7 @@ services:
     ports:
       - 0.0.0.0:8002:8000
     volumes:
-      - ${PWD}/example_apps/rest-api/python:/app
+      - ${PWD}/example_apps/rest_api/python:/app
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
@@ -39,7 +39,7 @@ services:
     ports:
       - 0.0.0.0:8003:8000
     volumes:
-      - ${PWD}/example_apps/rest-api/python:/app
+      - ${PWD}/example_apps/rest_api/python:/app
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
@@ -53,7 +53,7 @@ services:
     ports:
       - 0.0.0.0:8004:8000
     volumes:
-      - ${PWD}/example_apps/rest-api/python:/app
+      - ${PWD}/example_apps/rest_api/python:/app
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
@@ -67,7 +67,7 @@ services:
     ports:
       - 0.0.0.0:8005:8000
     volumes:
-      - ${PWD}/example_apps/rest-api/python:/app
+      - ${PWD}/example_apps/rest_api/python:/app
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
@@ -79,7 +79,7 @@ services:
     image: python:3.12
     restart: unless-stopped
     volumes:
-      - ${PWD}/example_apps/dummy-client:/app
+      - ${PWD}/example_apps/dummy_client:/app
     working_dir: /app
     command: >
       bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"

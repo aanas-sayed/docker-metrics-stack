@@ -4,7 +4,7 @@ set -e  # Exit immediately on error
 
 # Define the paths to your Docker Compose files
 METRICS_STACK_COMPOSE_FILE="docker-compose.yml"
-EXAMPLE_APPS_COMPOSE_FILE="example_apps/docker-compose.yml"
+EXAMPLE_APPS_COMPOSE_FILE="example_apps/docker-compose-python.yml"
 
 # Function to start Docker Compose stack with given compose file and extra arguments
 start_compose_stack() {

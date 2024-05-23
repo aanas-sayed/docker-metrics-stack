@@ -1,0 +1,101 @@
+x-logging:
+  &default-logging
+  driver: "journald"
+  options: 
+    tag: "example-apps/rest-api-servers"
+
+services:
+  rest-api-server-1:
+    image: golang:1.22.3
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8001:8000
+    volumes:
+      - ${PWD}/example_apps/rest_api/go:/app
+    working_dir: /app
+    command: >
+      bash -c "go mod download && CGO_ENABLED=0 GOOS=linux go build -o /rest-api && /rest-api"
+    logging: *default-logging
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-2:
+    image: golang:1.22.3
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8002:8000
+    volumes:
+      - ${PWD}/example_apps/rest_api/go:/app
+    working_dir: /app
+    command: >
+      bash -c "go mod download && CGO_ENABLED=0 GOOS=linux go build -o /rest-api && /rest-api"
+    logging: *default-logging
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-3:
+    image: golang:1.22.3
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8003:8000
+    volumes:
+      - ${PWD}/example_apps/rest_api/go:/app
+    working_dir: /app
+    command: >
+      bash -c "go mod download && CGO_ENABLED=0 GOOS=linux go build -o /rest-api && /rest-api"
+    logging: *default-logging
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-4:
+    image: golang:1.22.3
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8004:8000
+    volumes:
+      - ${PWD}/example_apps/rest_api/go:/app
+    working_dir: /app
+    command: >
+      bash -c "go mod download && CGO_ENABLED=0 GOOS=linux go build -o /rest-api && /rest-api"
+    logging: *default-logging
+    networks:
+      - docker-metrics-stack_metrics
+
+  rest-api-server-5:
+    image: golang:1.22.3
+    restart: unless-stopped
+    ports:
+      - 0.0.0.0:8005:8000
+    volumes:
+      - ${PWD}/example_apps/rest_api/go:/app
+    working_dir: /app
+    command: >
+      bash -c "go mod download && CGO_ENABLED=0 GOOS=linux go build -o /rest-api && /rest-api"
+    logging: *default-logging
+    networks:
+      - docker-metrics-stack_metrics
+
+  dummy-client:
+    image: python:3.12
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/example_apps/dummy_client:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install --upgrade pip && pip install -r requirements.txt && python main.py"
+    networks:
+      - docker-metrics-stack_metrics
+
+  nginx:
+    image: nginx:1.25
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/example_apps/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 0.0.0.0:8080:8080
+    networks:
+      - docker-metrics-stack_metrics
+
+networks:
+  docker-metrics-stack_metrics:
+    external: true

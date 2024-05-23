@@ -26,35 +26,50 @@
         "uid": "PBFA97CFB590B2093"
       },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 24,
         "x": 0,
         "y": 0
       },
       "id": 3,
       "options": {
-        "bgColor": "red",
+        "bgColor": "#5794F2",
         "clockType": "24 hour",
         "countdownSettings": {
-          "endCountdownTime": "2024-05-11T02:11:47+01:00",
-          "endText": "00:00:00"
+          "endCountdownTime": "2024-05-22T04:29:49+01:00",
+          "endText": "00:00:00",
+          "invalidValueText": "invalid value",
+          "noValueText": "no value found",
+          "queryCalculation": "last",
+          "source": "input"
         },
         "countupSettings": {
-          "beginCountupTime": "2024-05-11T02:11:47+01:00",
-          "beginText": "00:00:00"
+          "beginCountupTime": "2024-05-22T04:29:49+01:00",
+          "beginText": "00:00:00",
+          "invalidValueText": "invalid value",
+          "noValueText": "no value found",
+          "queryCalculation": "last",
+          "source": "input"
         },
         "dateSettings": {
           "dateFormat": "YYYY-MM-DD",
-          "fontSize": "20px",
+          "fontSize": "24px",
           "fontWeight": "normal",
           "locale": "",
           "showDate": true
+        },
+        "descriptionSettings": {
+          "descriptionText": "",
+          "fontSize": "12px",
+          "fontWeight": "normal",
+          "noValueText": "no description found",
+          "source": "none"
         },
         "fontMono": false,
         "mode": "time",
         "refresh": "dashboard",
         "timeSettings": {
-          "fontSize": "70px",
+          "fontSize": "100px",
           "fontWeight": "bold"
         },
         "timezone": "Europe/London",
@@ -62,7 +77,7 @@
           "fontSize": "12px",
           "fontWeight": "normal",
           "showTimezone": true,
-          "zoneFormat": "offsetAbbv"
+          "zoneFormat": "nameOffset"
         }
       },
       "pluginVersion": "2.1.5",
@@ -82,7 +97,7 @@
                 "0": {
                   "color": "red",
                   "index": 0,
-                  "text": "ERROR"
+                  "text": "DOWN"
                 },
                 "1": {
                   "color": "green",
@@ -110,9 +125,9 @@
         "h": 5,
         "w": 3,
         "x": 0,
-        "y": 6
+        "y": 7
       },
-      "id": 2,
+      "id": 1,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -129,7 +144,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -164,7 +179,7 @@
                 "0": {
                   "color": "red",
                   "index": 0,
-                  "text": "ERROR"
+                  "text": "DOWN"
                 },
                 "1": {
                   "color": "green",
@@ -190,11 +205,11 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 16,
+        "w": 14,
         "x": 3,
-        "y": 6
+        "y": 7
       },
-      "id": 5,
+      "id": 2,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -208,10 +223,10 @@
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "value_and_name",
+        "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -256,11 +271,11 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 5,
-        "x": 19,
-        "y": 6
+        "w": 7,
+        "x": 17,
+        "y": 7
       },
-      "id": 9,
+      "id": 4,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -277,7 +292,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -311,6 +326,7 @@
           },
           "mappings": [],
           "max": 1000,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -327,9 +343,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 12
       },
-      "id": 6,
+      "id": 5,
       "options": {
         "displayMode": "lcd",
         "maxVizHeight": 300,
@@ -338,7 +354,9 @@
         "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -346,7 +364,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -395,9 +413,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 12
       },
-      "id": 7,
+      "id": 6,
       "options": {
         "displayMode": "lcd",
         "maxVizHeight": 300,
@@ -406,7 +424,9 @@
         "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -414,7 +434,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -425,7 +445,6 @@
           "editorMode": "builder",
           "expr": "avg by(endpoint) (request_processing_seconds_sum{job=\"rest-api-servers\", endpoint!=\"/metrics\"}) / avg by(endpoint) (request_processing_seconds_count{job=\"rest-api-servers\", endpoint!=\"/metrics\"})",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "__auto",
@@ -454,18 +473,17 @@
               "viz": false
             }
           },
-          "decimals": 0,
           "mappings": []
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 11,
-        "w": 9,
+        "h": 10,
+        "w": 7,
         "x": 0,
-        "y": 19
+        "y": 20
       },
-      "id": 8,
+      "id": 7,
       "options": {
         "displayLabels": [
           "percent",
@@ -489,6 +507,7 @@
           "values": false
         },
         "tooltip": {
+          "maxHeight": 600,
           "mode": "single",
           "sort": "none"
         }
@@ -501,18 +520,17 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "sum by(instance) (request_processing_seconds_count{job=\"rest-api-servers\"})",
+          "expr": "sum by(instance) (increase(request_processing_seconds_count{job=\"rest-api-servers\"}[24h]))",
           "fullMetaSearch": false,
-          "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "B",
+          "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "Load Balancing [Inf]",
+      "title": "Load Balancing [24h]",
       "type": "piechart"
     },
     {
@@ -521,12 +539,12 @@
         "uid": "P8E80F9AEF21F6940"
       },
       "gridPos": {
-        "h": 22,
-        "w": 15,
-        "x": 9,
-        "y": 19
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 30
       },
-      "id": 4,
+      "id": 8,
       "options": {
         "dedupStrategy": "none",
         "enableLogDetails": true,
@@ -537,24 +555,142 @@
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "editorMode": "builder",
-          "expr": "{host=\"yourhost\",job=\"varlogs\"}",
+          "editorMode": "code",
+          "expr": "{job=\"docker\", container_name=\"docker-metrics-stack-promtail-1\"} | level =~ `(warn|error)`",
+          "maxLines": 1000,
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Logs - varlogs - host",
+      "title": "Promtail Logs (warn+)",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 9,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{job=\"docker\", container_name=\"docker-metrics-stack-loki-1\"} | level =~ `(warn|error)`",
+          "maxLines": 1000,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Loki Logs (warn+)",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "id": 10,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{job=\"docker\", container_name=\"docker-metrics-stack-prometheus-1\"} | level =~ `(warn|error)`",
+          "maxLines": 1000,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Prometheus Logs (warn+)",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      },
+      "id": 11,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{job=\"docker\", container_tag=\"example-apps/rest-api-servers\"} | level =~ `(warn|error)`",
+          "maxLines": 1000,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Prometheus Logs (warn+)",
       "type": "logs"
     }
   ],
-  "refresh": "5s",
+  "refresh": "30s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -564,10 +700,11 @@
     "from": "now-6h",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {},
   "timezone": "browser",
   "title": "Sample Metrics",
-  "uid": "adl7xn4i1gjk0b",
+  "uid": "edmew6ij42jnkd",
   "version": 1,
   "weekStart": ""
 }

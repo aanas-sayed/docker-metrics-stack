@@ -25,9 +25,6 @@ positions:
 scrape_configs:
 # Name to identify this scrape config in the Promtail UI.
 - job_name: system
-  # Describes how to transform logs from targets.
-  pipeline_stages:
-    - docker:
   # Static targets to scrape.
   static_configs:
   # Configures the discovery to look on the current machine.
@@ -45,3 +42,83 @@ scrape_configs:
       # Additional labels to assign to the logs
       job: varlogs
       host: yourhost
+
+- job_name: docker
+  journal:
+    json: false
+    max_age: 12h
+    path: /var/log/journal
+    matches: _SYSTEMD_UNIT=docker.service
+    labels:
+      job: docker
+      host: yourhost
+  # Describes how to relabel targets to determine if they should
+  # be processed.
+  relabel_configs:
+    # The source labels select values from existing labels. Their content is concatenated
+    # using the configured separator and matched against the configured regular expression
+    # for the replace, keep, and drop actions.
+    - source_labels: ['__journal_syslog_identifier']
+      # Label to which the resulting value is written in a replace action.
+      # It is mandatory for replace actions. Regex capture groups are available.
+      target_label: syslog_identifier
+    - source_labels: ['__journal__transport']
+      target_label: transport
+    - source_labels: ['__journal_container_name']
+      target_label: container_name
+    - source_labels: ['__journal_container_tag']
+      target_label: container_tag
+    - source_labels: ['__journal_image_name']
+      target_label: image_name
+    # Optional relabel configs to use if 'matches' not used in this scrape config.
+    # - source_labels: ['__journal__systemd_unit']
+    #   target_label: systemd_unit
+    # - source_labels: ['__journal__hostname']
+    #   target_label: hostname
+
+  # Describes how to transform logs from targets.
+  pipeline_stages:
+    # This stage is only going to run if the scraped target has a container
+    # name with value "docker-metrics-stack-promtail-1".
+    - match:
+        selector: '{container_tag="docker-metrics-stack"}'
+        stages:
+        # The regex stage parses out a level, timestamp, caller, caller line and 
+        # component. At the end of the stage, the values for level, timestamp, 
+        # caller, caller line and component are only set internally for the 
+        # pipeline. Future stages can use these values and decide what to do with 
+        # them.
+        - regex:
+            expression: '.*level=(?P<level>[a-zA-Z]+).*ts=(?P<timestamp>[T\d-:.Z]*).*'
+        - regex:
+            expression: '.*ts=(?P<timestamp>[T\d-:.Z]*).*level=(?P<level>[a-zA-Z]+).*'
+
+        # The labels stage takes the level and component entries from the previous
+        # regex stage and promotes them to a label. For example, level=error may
+        # be a label added by this stage.
+        - labels:
+            level:
+
+        # Finally, the timestamp stage takes the timestamp extracted from the
+        # regex stage and promotes it to be the new timestamp of the log entry,
+        # parsing it as an RFC3339Nano-formatted value.
+        - timestamp:
+            format: RFC3339Nano
+            source: timestamp
+
+    - match:
+        selector: '{container_tag="example-apps/rest-api-servers"}'
+        stages:
+        - regex:
+            expression: '^(?P<level>[A-Z]+):.*'
+            
+        - template:
+            source: level
+            template: '{{ ToLower .Value }}'
+
+        - template:
+            source: level
+            template: '{{ Replace .Value "warning" "warn" 1 }}'
+
+        - labels:
+            level:

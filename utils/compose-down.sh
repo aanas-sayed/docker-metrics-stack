@@ -3,7 +3,7 @@
 set -e  # Exit immediately on error
 
 # Define the paths to your Docker Compose files (same as compose-up.sh)
-METRICS_STACK_COMPOSE_FILE="docker-compose.yml"
+METRICS_STACK_COMPOSE_FILE="docker-compose-metrics-stack.yml"
 EXAMPLE_APPS_PYTHON_COMPOSE_FILE="example_apps/docker-compose-python.yml"
 EXAMPLE_APPS_GO_COMPOSE_FILE="example_apps/docker-compose-go.yml"
 
